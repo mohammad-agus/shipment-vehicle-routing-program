@@ -5,36 +5,11 @@ import re
 import csv
 from typing import Union
 from datetime import datetime, date, time
+from Schedule import Schedule
 
 # Load API key
 from dotenv import dotenv_values
 api_key = dotenv_values(".env")["API_KEY"]
-
-
-class Schedule:
-
-    @classmethod
-    def to_epoch(cls, date_time: datetime):
-        return date_time.timestamp()
-
-    @classmethod
-    def get_shipment_datetime(cls, vehicles: int, idx: int) -> date:
-        p = r"^(2[0-9]{3})-0?([1-9]|1[0-2])-0?([1-9]|[1-3][0-9]) 0?([1-9]|[1-2][0-9]):0?([0-9]|[1-5][0-9])$"
-        while True:
-            try:
-                if vehicles > 1:
-                    print(f"Input shipment schedule (date & time) of vehicle {idx+1} in 'YYYY-MM-DD HH:mm' format:")
-                else:
-                    print("Input shipment schedule (date & time) of the vehicle in 'YYYY-MM-DD HH:mm' format:")
-                dt = input(">> ")
-                if dt := re.match(pattern=p, string=dt):
-                    return datetime(int(dt.group(1)), int(dt.group(2)), int(dt.group(3)), int(dt.group(4)), int(dt.group(5)), 0)
-                print("Please input a valid datetime!")
-                pass
-            except ValueError:
-                print("Please input a valid datetime!")
-                pass
-
 
 
 def main():
@@ -59,7 +34,7 @@ def main():
                                    convert.decode_polyline(route['geometry'])['coordinates']]).add_to(route_map)
     print(optimized)
 
-    # route_map.save("route_map.html")
+    route_map.save("route_map.html")
 
 
 def get_coord(location: dict) -> list:
@@ -102,9 +77,9 @@ def get_csv_data() -> list[dict]:
 def get_vehicles(dt, nums_of_vehicle) -> list:
     vehicles: list = [Vehicle(id=i, profile="driving-car", start=get_shipment_start_point(dt)[::-1],
                               end=get_shipment_end_point(dt)[::-1],
-                              capacity=get_capacity(i, nums_of_vehicle),
-                              time_window=[Schedule.to_epoch(Schedule.get_shipment_datetime(nums_of_vehicle, i)),
-                                           Schedule.to_epoch(Schedule.get_shipment_datetime(nums_of_vehicle, i))])
+                              capacity=get_capacity(vehicles=nums_of_vehicle, index=i),
+                              time_window=Schedule.get_vehicle_time_window(vehicles=nums_of_vehicle, idx=i,
+                                                                           datetime_to_epoch_function=Schedule.to_epoch))
                       for i in range(nums_of_vehicle)]
     return vehicles
 
@@ -120,7 +95,7 @@ def get_vehicle_number() -> int:
         print("Input a valid number!")
 
 
-def get_capacity(index: int, vehicles: int) -> list:
+def get_capacity(vehicles: int, index: int) -> list:
     pattern = r"^([0-9]+)$"
     while True:
         if vehicles > 1:
