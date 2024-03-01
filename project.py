@@ -13,7 +13,7 @@ api_key = dotenv_values(".env")["API_KEY"]
 
 
 def main():
-
+  
     data: list = get_csv_data()
     client = Client(key=api_key)
     route_map = folium.Map(location=get_shipment_start_point(data), tiles="openstreetmap", zoom_start=14)
@@ -24,7 +24,7 @@ def main():
 
     jobs = []
     for i, loc in enumerate(get_job_list(data)):
-        jobs.append(Job(id=i, location=loc["location"][::-1], amount=loc["amount"]))
+        jobs.append(Job(id=i, location=loc["location"][::-1], amount=loc["amount"], service=loc["service"]))
 
     number_of_vehicles = get_vehicle_number()
     vehicles = get_vehicles(data, number_of_vehicles)
@@ -54,7 +54,7 @@ def get_shipment_end_point(dt: list) -> list:
 
 
 def get_job_list(dt: list) -> list:
-    return [{"location": [job["lat"], job["long"]], "amount": job["delivery_amount"]} for job in dt[2:]]
+    return [{"location": [job["lat"], job["long"]], "amount": job["delivery_amount"], "service": job["service"]} for job in dt[2:]]
 
 
 def get_job_index(dt: list) -> list:
@@ -68,7 +68,8 @@ def get_csv_data() -> list[dict]:
             with open(file_path) as input_data:
                 dt = csv.DictReader(input_data)
                 return [{"id": row["id"], "lat": float(row["lat"]), "long": float(row["long"]),
-                         "delivery_amount": [int(row["delivery_amount"])]} for row in dt]
+                         "delivery_amount": [int(row["delivery_amount"])],
+                         "service": int(row["service"])} for row in dt]
         except FileNotFoundError:
             print("Please input a valid csv file!")
             pass
@@ -79,7 +80,7 @@ def get_vehicles(dt, nums_of_vehicle) -> list:
                               end=get_shipment_end_point(dt)[::-1],
                               capacity=get_capacity(vehicles=nums_of_vehicle, index=i),
                               time_window=Schedule.get_vehicle_time_window(vehicles=nums_of_vehicle, idx=i,
-                                                                           datetime_to_epoch_function=Schedule.to_epoch))
+                                                                           datetime_to_epoch_function=Schedule.to_unix_timestamp))
                       for i in range(nums_of_vehicle)]
     return vehicles
 
