@@ -1,13 +1,14 @@
-import folium, re, csv
-from openrouteservice.optimization import Job, Vehicle
+import csv
+import folium
+import re
+import math
+from datetime import datetime
+from dotenv import dotenv_values
 from openrouteservice import Client, convert
-from typing import Union
-from datetime import datetime, date, time
+from openrouteservice.optimization import Job, Vehicle
 from tabulate import tabulate
 
 # Load API key
-from dotenv import dotenv_values
-
 api_key = dotenv_values(".env")["API_KEY"]
 
 
@@ -35,7 +36,7 @@ class Schedule:
                     )
                 dt1 = input(f"Begin: ")
                 dt1 = re.match(pattern=p, string=dt1)
-                if dt1 == None:
+                if dt1 is None:
                     print("Please input a valid datetime!")
                     continue
                 ts1 = datetime(
@@ -48,7 +49,7 @@ class Schedule:
                 )
                 dt2 = input(f"End: ")
                 dt2 = re.match(pattern=p, string=dt2)
-                if dt2 == None:
+                if dt2 is None:
                     print("Please input a valid datetime!")
                     continue
                 ts2 = datetime(
@@ -71,6 +72,35 @@ class Schedule:
                 pass
 
 
+class Color:
+
+    colors = [
+        "red",
+        "blue",
+        "green",
+        "purple",
+        "orange",
+        "darkred",
+        "lightred",
+        "beige",
+        "darkblue",
+        "darkgreen",
+        "cadetblue",
+        "darkpurple",
+        "white",
+        "pink",
+        "lightblue",
+        "lightgreen",
+        "gray",
+        "black",
+        "lightgray",
+    ]
+
+    @classmethod
+    def get_colors(cls, n: int) -> list:
+        return cls.colors * n
+
+
 def main():
 
     data: list = get_csv_data()
@@ -82,29 +112,32 @@ def main():
     folium.Marker(
         location=get_shipment_start_point(data), icon=folium.Icon(color="red")
     ).add_to(route_map)
+
     for coord in get_shipment_points(data):
         folium.Marker(location=coord).add_to(route_map)
 
-    jobs = []
-    for i, loc in enumerate(get_job_list(data)):
-        jobs.append(
-            Job(
-                id=i,
-                location=loc["location"][::-1],
-                amount=loc["amount"],
-                service=loc["service"],
-            )
+    jobs = [
+        Job(
+            id=i,
+            location=loc["location"][::-1],
+            amount=loc["amount"],
+            service=loc["service"],
         )
+        for i, loc in enumerate(get_job_list(data))
+    ]
 
     number_of_vehicles = get_vehicle_number()
     vehicles = get_vehicles(data, number_of_vehicles)
     optimized = client.optimization(jobs=jobs, vehicles=vehicles, geometry=True)
-    for route in optimized["routes"]:
+    
+    colors = Color.get_colors(n=math.ceil(len(optimized["routes"]) / len(Color.colors)))
+    for i, route in enumerate(optimized["routes"]):
         folium.PolyLine(
             locations=[
                 route[::-1]
                 for route in convert.decode_polyline(route["geometry"])["coordinates"]
-            ]
+            ],
+            color=colors[route["vehicle"]],
         ).add_to(route_map)
 
     get_summary(result=optimized, source=data)
@@ -207,14 +240,14 @@ def get_capacity(vehicles: int, index: int) -> list:
         print("Input a valid number!")
 
 
-def get_planned_amount(jobs: dict) -> int:
+def get_planned_amount(jobs: list[dict]) -> int:
     amount = [job["amount"][0] for job in jobs]
     return sum(amount)
 
 
-def get_summary(result: dict, source: dict) -> None:
+def get_summary(result: dict, source: list[dict]) -> None:
     # print("="*80)
-    print("\n  Summary:")
+    print("\nSummary:")
     headers = ["Result", "Value"]
     table = [
         ["Planned amount", get_planned_amount(get_job_list(source))],
@@ -235,10 +268,10 @@ def get_summary(result: dict, source: dict) -> None:
             headers=headers, tabular_data=table, tablefmt="psql", disable_numparse=True
         )
     )
-    for i, route in enumerate(result["routes"]):
-        print(f"\n>> Route {i+1}: Vehicle {route['vehicle']+1} ")
+    for idx, route in enumerate(result["routes"]):
+        print(f"\n>> Route {idx+1}: Vehicle {route['vehicle']+1} ")
         for i, step in enumerate(route["steps"]):
-            type, location, load, arrival, duration, distance, job_id = (
+            job_type, location, load, arrival, duration, distance, job_id = (
                 step["type"],
                 step["location"],
                 step["load"],
@@ -249,15 +282,15 @@ def get_summary(result: dict, source: dict) -> None:
             )
             if step["type"] == "start":
                 print(
-                    f"{type.capitalize()}:\t{location}, load amount: {load[0]}, start time: {arrival}"
+                    f"{job_type.capitalize()}:\t{location}, load amount: {load[0]}, start time: {arrival}"
                 )
             elif step["type"] == "end":
                 print(
-                    f"{type.capitalize()}:\t{location}, load amount: {load[0]}, finish time: {arrival}"
+                    f"{job_type.capitalize()}:\t{location}, load amount: {load[0]}, finish time: {arrival}"
                 )
             else:
                 print(
-                    f"{type.capitalize()} {job_id+1}:\t{location}, load amount: {load[0]}, arrival time: {arrival}"
+                    f"{job_type.capitalize()} {job_id+1}:\t{location}, load amount: {load[0]}, arrival time: {arrival}"
                 )
     print(f"\nUnassigned:")
     for job in result["unassigned"]:
@@ -265,6 +298,32 @@ def get_summary(result: dict, source: dict) -> None:
         location = job["location"]
         amount = get_job_list(source)[job_id].get("amount")[0]
         print(f"Job {job_id+1}:\t{location}, amount: {amount}")
+
+
+def get_colors(len_route: int) -> list:
+    colors = [
+        "red",
+        "blue",
+        "green",
+        "purple",
+        "orange",
+        "darkred",
+        "lightred",
+        "beige",
+        "darkblue",
+        "darkgreen",
+        "cadetblue",
+        "darkpurple",
+        "white",
+        "pink",
+        "lightblue",
+        "lightgreen",
+        "gray",
+        "black",
+        "lightgray",
+    ]
+    if len_route > len(colors):
+        return round(len_route / len(colors)) * colors
 
 
 if __name__ == "__main__":
