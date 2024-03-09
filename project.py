@@ -109,12 +109,28 @@ def main():
         location=get_shipment_start_point(data), tiles="openstreetmap", zoom_start=14
     )
 
-    folium.Marker(
-        location=get_shipment_start_point(data), icon=folium.Icon(color="red")
-    ).add_to(route_map)
+    if get_shipment_start_point(data) == get_shipment_end_point(data):
+        folium.Marker(
+            location=get_shipment_start_point(data),
+            tooltip=f"{data[0]['id']} / {data[1]['id']}",
+            icon=folium.Icon(color="red"),
+        ).add_to(route_map)
+    else:
+        folium.Marker(
+            location=get_shipment_start_point(data),
+            tooltip=f"{data[0]['id']}",
+            icon=folium.Icon(color="red"),
+        ).add_to(route_map)
+        folium.Marker(
+            location=get_shipment_end_point(data),
+            tooltip=f"{data[1]['id']}",
+            icon=folium.Icon(color="purple"),
+        ).add_to(route_map)
 
-    for coord in get_shipment_points(data):
-        folium.Marker(location=coord).add_to(route_map)
+    for i, coord in enumerate(get_shipment_points(data)):
+        folium.Marker(location=coord, tooltip=get_job_index(dt=data)[i]).add_to(
+            route_map
+        )
 
     jobs = [
         Job(
@@ -129,7 +145,7 @@ def main():
     number_of_vehicles = get_vehicle_number()
     vehicles = get_vehicles(data, number_of_vehicles)
     optimized = client.optimization(jobs=jobs, vehicles=vehicles, geometry=True)
-    
+
     colors = Color.get_colors(n=math.ceil(len(optimized["routes"]) / len(Color.colors)))
     for i, route in enumerate(optimized["routes"]):
         folium.PolyLine(
@@ -298,32 +314,6 @@ def get_summary(result: dict, source: list[dict]) -> None:
         location = job["location"]
         amount = get_job_list(source)[job_id].get("amount")[0]
         print(f"Job {job_id+1}:\t{location}, amount: {amount}")
-
-
-def get_colors(len_route: int) -> list:
-    colors = [
-        "red",
-        "blue",
-        "green",
-        "purple",
-        "orange",
-        "darkred",
-        "lightred",
-        "beige",
-        "darkblue",
-        "darkgreen",
-        "cadetblue",
-        "darkpurple",
-        "white",
-        "pink",
-        "lightblue",
-        "lightgreen",
-        "gray",
-        "black",
-        "lightgray",
-    ]
-    if len_route > len(colors):
-        return round(len_route / len(colors)) * colors
 
 
 if __name__ == "__main__":
