@@ -298,15 +298,15 @@ def get_summary(result: dict, source: list[dict]) -> None:
             )
             if step["type"] == "start":
                 print(
-                    f"{job_type.capitalize()}:\t{location}, load amount: {load[0]}, start time: {arrival}"
+                    f"{job_type}\t\t\t: {location}, load amount: {load[0]}, start time: {arrival}"
                 )
             elif step["type"] == "end":
                 print(
-                    f"{job_type.capitalize()}:\t{location}, load amount: {load[0]}, finish time: {arrival}"
+                    f"{job_type}\t\t\t: {location}, load amount: {load[0]}, finish time: {arrival}"
                 )
             else:
                 print(
-                    f"{job_type.capitalize()} {job_id+1} {get_job_index(source)[job_id]}:\t{location}, load amount: {load[0]}, arrival time: {arrival}"
+                    f"{job_type} {job_id+1} ({get_job_index(source)[job_id]})\t\t: {location}, load amount: {load[0]}, arrival time: {arrival}"
                 )
     print(f"\nUnassigned:")
     for job in result["unassigned"]:

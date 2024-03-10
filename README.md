@@ -77,6 +77,22 @@ Provides a summary of routing results in a tabular format using tabulate.
 [Include examples or screenshots demonstrating how the app works.]
 
 
+```
+Input csv file: input.csv
+Input number of vehicle: 2
+Input vehicle 1 capacity: 100
+Date and time format: "YYYY-MM-DD HH:mm"
+Input shipment schedule (date & time) of vehicle 1 (in  format):
+Begin: 2024-06-01 08:30
+End: 2024-06-01 10:30
+Input vehicle 2 capacity: 85
+Date and time format: "YYYY-MM-DD HH:mm"
+Input shipment schedule (date & time) of vehicle 2 (in  format):
+Begin: 2024-06-01 09:30
+End: 2024-06-01 12:30
+```
+
+
 | id               | lat                | long               | delivery_amount | service |
 | ---------------- | ------------------ | ------------------ | --------------- | ------- |
 | start_point      | 0.5705953948161725 | 123.05911896076756 | 0               | 0       |
