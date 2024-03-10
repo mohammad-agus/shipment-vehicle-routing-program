@@ -160,10 +160,6 @@ def main():
     route_map.save("route_map.html")
 
 
-def get_coord(location: dict) -> list:
-    return [location["lat"], location["long"]]
-
-
 def get_shipment_points(dt: list) -> list:
     return [[loc["lat"], loc["long"]] for loc in dt[2:]]
 
