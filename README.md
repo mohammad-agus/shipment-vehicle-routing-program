@@ -82,7 +82,7 @@ Provides a summary of routing results in a tabular format using tabulate.
 | start_point      | 0.5705953948161725 | 123.05911896076756 | 0               | 0       |
 | end_point        | 0.5461229144422185 | 123.07928098393106 | 0               | 0       |
 | shipment_point01 | 0.5631471392390268 | 123.05288470178134 | 40              | 1200    |
-| shipment_point02 | 0.5593274803137437 | 123.06239670199969 |  30             | 900     |
+| shipment_point02 | 0.5593274803137437 | 123.06239670199969 | 30              | 900     |
 | shipment_pointn  | ...                | ...                | ...             | ...     |
 
 ## Credits
