@@ -306,7 +306,7 @@ def get_summary(result: dict, source: list[dict]) -> None:
                 )
             else:
                 print(
-                    f"{job_type.capitalize()} {job_id+1}:\t{location}, load amount: {load[0]}, arrival time: {arrival}"
+                    f"{job_type.capitalize()} {job_id+1} {get_job_index(source)[job_id]}:\t{location}, load amount: {load[0]}, arrival time: {arrival}"
                 )
     print(f"\nUnassigned:")
     for job in result["unassigned"]:
