@@ -104,7 +104,8 @@ Generated route map:
 
 
 ## Credits
-dotenv
-folium
-tabulate
-OpenRouteService
+* [OpenRouteService](https://openrouteservice.org/) / [openrouteservice-py](https://openrouteservice-py.readthedocs.io/en/latest/)
+* [VROOM Project](https://github.com/VROOM-Project/vroom)
+* [folium](https://python-visualization.github.io/folium/latest/)
+* [tabulate](https://pypi.org/project/tabulate/)
+* [python-dotenv](https://pypi.org/project/python-dotenv/)
