@@ -9,7 +9,7 @@ Vehicle 2
     End time        : 2024-06-01 12:30
 
 
-# Shipment Vehicle Routing App
+# Shipment Vehicle Routing Program
 #### Video Demo:
 #### Description:
 This project is a Python application developed as the final project for the CS50 Introduction to Computer Science course at Harvard University. The app is designed to efficiently route shipment vehicles based on input data provided either in CSV format or manually. It utilizes the Vehicle Routing Problem (VRP) solver from the OpenRouteService API to optimize routes. The app also utilizes several third-party Python libraries including dotenv for secure storage of API keys, folium for map visualization, and tabulate for summarizing routing results.
