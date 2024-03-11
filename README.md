@@ -94,50 +94,11 @@ Enter some inputs that program will be prompted, for example:
 * vehicle 2 beginning time: `2024-06-01 09:30`
 * vehicle 2 ending time: `2024-06-01 12:30`
 
-```
-Input csv file: input.csv
-Input number of vehicle: 2
-Input vehicle 1 capacity: 100
-Date and time format: "YYYY-MM-DD HH:mm"
-Input shipment schedule (date & time) of vehicle 1 (in  format):
-Begin: 2024-06-01 08:30
-End: 2024-06-01 10:30
-Input vehicle 2 capacity: 85
-Date and time format: "YYYY-MM-DD HH:mm"
-Input shipment schedule (date & time) of vehicle 2 (in  format):
-Begin: 2024-06-01 09:30
-End: 2024-06-01 12:30
-```
-Result.
-Here is the summary result of the program:
-```
-Summary:
-+-----------------+------------------------------+
-| Result          | Value                        |
-|-----------------+------------------------------|
-| Planned amount  | 214                          |
-| Delivery amount | 184                          |
-| Routes          | 2                            |
-| Distance        | 19874 meters (19.87 km)      |
-| Duration        | 1388 seconds (23.13 minutes) |
-| Unassigned      | 1                            |
-+-----------------+------------------------------+
-
->> Route 1: Vehicle 1
-start                   : [123.05911896076756, 0.5705953948161725], load amount: 100, start time: 2024-06-01 08:30:00
-job 4 (point04)         : [123.0487623157014, 0.5728066127800958], load amount: 70, arrival time: 2024-06-01 08:31:52
-job 1 (point01)         : [123.05288470178134, 0.5631471392390268], load amount: 30, arrival time: 2024-06-01 08:49:37
-job 2 (point02)         : [123.06239670199967, 0.5593274803137437], load amount: 0, arrival time: 2024-06-01 09:12:35
-end                     : [123.07928098393106, 0.5461229144422185], load amount: 0, finish time: 2024-06-01 09:32:54
-
->> Route 2: Vehicle 2
-start                   : [123.05911896076756, 0.5705953948161725], load amount: 84, start time: 2024-06-01 09:30:00
-job 5 (point05)         : [123.05837316586506, 0.57706528365983], load amount: 25, arrival time: 2024-06-01 09:31:25
-job 3 (point03)         : [123.08181070778429, 0.5421563811124765], load amount: 0, arrival time: 2024-06-01 10:08:04
-end                     : [123.07928098393106, 0.5461229144422185], load amount: 0, finish time: 2024-06-01 10:22:14
-```
-
 ![alt text](img/img001-result.png)
+
+Result.
+
+![alt text](img/img002-result.png)
 
 
 
