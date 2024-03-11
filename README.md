@@ -1,14 +1,3 @@
-Number of Vehicle   : 2
-Vehicle 1
-    Capacity        : 100
-    Start time      : 2024-06-01 08:30
-    End time        : 2024-06-01 10:30
-Vehicle 2
-    Capacity        : 85
-    Start time      : 2024-06-01 09:30
-    End time        : 2024-06-01 12:30
-
-
 # Shipment Vehicle Routing Program
 ## Video Demo:
 ## Description:
@@ -94,14 +83,23 @@ Enter some inputs that program will be prompted, for example:
 * vehicle 2 beginning time: `2024-06-01 09:30`
 * vehicle 2 ending time: `2024-06-01 12:30`
 
-![alt text](img/img001-result.png)
+![alt text](img/img001-input.png)
 
 Result.
 
+Here is the solution summary:
 ![alt text](img/img002-result.png)
 
+* Planned amount: total planned delivery
+* Delivery amount: total delivery for all routes based on the given parameters
+* Routes: number of routes in the solution
+* Distance: total distance for all routes
+* Duration: total travel time for all routes
+* Unassigned: number of tasks (point/location) that could not be served
 
+Generated route map:
 
+![alt text](img/img003-route_map.png)
 
 
 Python
