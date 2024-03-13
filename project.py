@@ -9,7 +9,7 @@ from openrouteservice.optimization import Job, Vehicle
 from tabulate import tabulate
 
 # Load API key
-api_key = dotenv_values(".env")["API_KEY"]
+api_key = "5b3ce3597851110001cf62487ae0fdb27bcc48c794d368aa85cd73fc"
 
 
 class Schedule:
