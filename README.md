@@ -1,16 +1,14 @@
 # Shipment Vehicle Routing Program
 ## Video Demo:
 ## Description:
-This program creates the optimized vehicle routes for shipment activity based on the given data and parameters. This program utilize [OpenRuteService](https://openrouteservice.org/) API (based on [VROOM Project](https://github.com/VROOM-Project/vroom)) to solve the vehicle routing problem (VRP) as this project's goal.
+This program creates the optimized vehicle routes for shipment activity based on the given data and parameters. This program utilizes [OpenRuteService](https://openrouteservice.org/) API (based on [VROOM Project](https://github.com/VROOM-Project/vroom)) to solve the vehicle routing problem (VRP) as this project's goal.
 
-## How the program works?
-The program will send a request based on the input data to Optimization endpoints of [OpenRuteService](https://openrouteservice.org/) API (a valid 
-API key needed). If the request succeed, the program will be receiving a response in JSON format. This program will parse then summarize the result and generate a map in HTML format (`route_map.html`) that shows the vehicle routes.
+## How does the program work?
+The program will send a request based on the input data to Optimization endpoints of [OpenRuteService](https://openrouteservice.org/) API (a valid API key is needed). If the request succeeds, the program will receive a response in JSON format. This program will parse and then summarize the result and generate a map in HTML format (`route_map.html`) that shows the vehicle routes.
 
 ## To Do
-#### Obtain an API key from OpenRouteService website
-Visit the [OpenRuteService](https://openrouteservice.org/) website and sign in or sign up for a free account. Once logged in, navigate to your account dashboard to request an API key (token). Copy the generated API key to `.env` 
-file located in the project directory or directly into `project.py`:
+#### Obtain an API key from the OpenRouteService website
+Visit the [OpenRuteService](https://openrouteservice.org/) website and sign in or sign up for a free account. Once logged in, navigate to your account dashboard to request an API key (token). Copy the generated API key to the `.env` file located in the project directory or directly into `project.py`:
 ```commandline
 # Load API key
 api_key = "api_key"
@@ -19,7 +17,7 @@ api_key = "api_key"
 
 
 #### Input data
-Below is an example of table structure that will be an input to the program in CSV format.
+Below is a table of data structures that will be input to the program in CSV format.
 
 | id               | lat                | long               | delivery_amount | service |
 | ---------------- | ------------------ | ------------------ | --------------- | ------- |
@@ -30,25 +28,25 @@ Below is an example of table structure that will be an input to the program in C
 | shipment_point n  | ...                | ...                | ...             | ...     |
 
 > Note:
-> * The shipment location details must begin with start point, end point, then shipment points (see example!)
-> * `id` : unique id/name of each location point (string)
-> * `lat` : latitude (float)
-> * `long` : longitude (float)
-> * `delivery_amount` : delivery quantity of item (integer)
-> * `service` : estimated unloading time in seconds (integer)
+> * The shipment location details must begin with the start point, the endpoint, and then the shipment points
+> * `id`: unique id/name of each location point (string)
+> * `lat`: latitude (float)
+> * `long`: longitude (float)
+> * `delivery_amount`: delivery quantity of item (integer)
+> * `service`: estimated unloading time in seconds (integer)
 > * `delivery_amount` and `service` of the start and end point are 0 (zero) because there is no shipment nor service on those points
 
 <br>
-When the program is running, it will prompts to enter some inputs which are:
+When the program is running, it will prompt you to enter some inputs which are:
 
-* `Number of vehicle`: number of vehicle (integer)
-* `Vehicle capacity` : the maximum capacity of the vehicle (integer)
-* `Begin` : time when vehicle start to operate (YYYY-MM-DD HH:MM)
-* `End` : time when vehicle finish to operate (YYYY-MM-DD HH:MM)
-> Note: The times of `Capacity`, `Start time`, and `End time` will be prompted based on the number of vehicle. 
+* `Number of vehicles`: number of vehicles (integer)
+* `Vehicle capacity`: the maximum capacity of the vehicle (integer)
+* `Begin`: a time when the vehicle starts to operate (YYYY-MM-DD HH:MM)
+* `End`: time when vehicle finishes to operate (YYYY-MM-DD HH:MM)
+> Note: The times of `Capacity`, `Start time`, and `End time` will be prompted based on the number of the vehicle. 
 
 #### Usage
-Navigate to the project directory using cd command.
+Navigate to the project directory using the `cd` command.
 ```
 cd project
 ```
@@ -60,7 +58,7 @@ Run the program.
 ```
 python project.py
 ```
-Enter some inputs that program will be prompted, for example:
+Enter some inputs that the program will be prompted, for example:
 * path to CSV file: `input.csv`, that contains this data:
 
 | id          | lat                | long               | delivery_amount | service |
@@ -75,13 +73,13 @@ Enter some inputs that program will be prompted, for example:
 | point06     | 0.5336841606021262 | 123.05336752598214 | 30              | 900     |
 
 
-* number of vehicle: `2`
-* vehicle 1 capacity: `100`
-* vehicle 1 beginning time: `2024-06-01 08:30`
-* vehicle 1 ending time: `2024-06-01 10:30`
-* vehicle 2 capacity: `85`
-* vehicle 2 beginning time: `2024-06-01 09:30`
-* vehicle 2 ending time: `2024-06-01 12:30`
+* Number of vehicles: `2`
+* Vehicle 1 capacity: `100`
+* Vehicle 1 beginning time: `2024-06-01 08:30`
+* Vehicle 1 ending time: `2024-06-01 10:30`
+* Vehicle 2 capacity: `85`
+* Vehicle 2 beginning time: `2024-06-01 09:30`
+* Vehicle 2 ending time: `2024-06-01 12:30`
 
 ![alt text](img/img001-input.png)
 
