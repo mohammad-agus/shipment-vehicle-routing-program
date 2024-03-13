@@ -309,7 +309,7 @@ def get_summary(result: dict, source: list[dict]) -> None:
         job_id = job["id"]
         location = job["location"]
         amount = get_job_list(source)[job_id].get("amount")[0]
-        print(f"Job {job_id+1}:\t{location}, amount: {amount}")
+        print(f"{job_type} {job_id+1} ({get_job_index(source)[job_id]})\t\t: {location}, amount: {amount}")
 
 
 if __name__ == "__main__":
