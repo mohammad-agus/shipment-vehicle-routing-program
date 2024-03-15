@@ -9,7 +9,7 @@ from openrouteservice.optimization import Job, Vehicle
 from tabulate import tabulate
 
 # Load API key
-api_key = "5b3ce3597851110001cf62487ae0fdb27bcc48c794d368aa85cd73fc"
+api_key = dotenv_values(".env")["API_KEY"]
 
 
 class Schedule:
@@ -309,7 +309,7 @@ def get_summary(result: dict, source: list[dict]) -> None:
         job_id = job["id"]
         location = job["location"]
         amount = get_job_list(source)[job_id].get("amount")[0]
-        print(f"{job_type} {job_id+1} ({get_job_index(source)[job_id]})\t\t: {location}, amount: {amount}")
+        print(f"job {job_id+1} ({get_job_index(source)[job_id]})\t\t: {location}, amount: {amount}")
 
 
 if __name__ == "__main__":
