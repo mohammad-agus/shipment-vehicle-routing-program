@@ -93,7 +93,6 @@ Here is the solution summary:
 * Delivery amount: total delivery for all routes based on the given parameters
 * Routes: number of routes in the solution
 * Distance: total distance for all routes
-* Duration: total travel time for all routes
 * Unassigned: number of tasks (point/location) that could not be served
 
 Generated route map:

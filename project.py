@@ -269,10 +269,6 @@ def get_summary(result: dict, source: list[dict]) -> None:
             "Distance",
             f'{result["summary"]["distance"]} meters ({result["summary"]["distance"]/1000:.2f} km)',
         ],
-        [
-            "Duration",
-            f'{result["summary"]["duration"]} seconds ({result["summary"]["duration"]/60:.2f} minutes)',
-        ],
         ["Unassigned", result["summary"]["unassigned"]],
     ]
     print(

@@ -6,4 +6,4 @@ COPY . /project
 
 RUN pip install -r requirements.txt
 
-CMD [ "python", "/project/project.py" ]
+ENTRYPOINT [ "bash" ]
