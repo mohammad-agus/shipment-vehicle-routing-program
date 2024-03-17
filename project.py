@@ -28,7 +28,7 @@ class Schedule:
                 print('Date and time format: "YYYY-MM-DD HH:mm"')
                 if vehicles > 1:
                     print(
-                        f"Input shipment schedule (date & time) of vehicle {idx+1} (in  format):"
+                        f'Input shipment schedule (date & time) of vehicle {idx+1} (in "YYYY-MM-DD HH:mm" format):'
                     )
                 else:
                     print(
