@@ -28,11 +28,11 @@ class Schedule:
                 print('Date and time format: "YYYY-MM-DD HH:mm"')
                 if vehicles > 1:
                     print(
-                        f'Input shipment schedule (date & time) of vehicle {idx+1} (in "YYYY-MM-DD HH:mm" format):'
+                        f'Input shipment schedule (date & time) of vehicle {idx+1}:'
                     )
                 else:
                     print(
-                        'Input shipment schedule (date & time) of the vehicle in "YYYY-MM-DD HH:mm" format:'
+                        'Input shipment schedule (date & time) of the vehicle:'
                     )
                 dt1 = input(f"Begin: ")
                 dt1 = re.match(pattern=p, string=dt1)
